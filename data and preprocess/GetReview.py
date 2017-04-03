@@ -174,6 +174,7 @@ class dazp_bj:
                         file.write(comment[key])
                         file.write(',')
                     file.write('\r\n')
+                    pass
                 except UnicodeEncodeError:
                     continue
                 try:
