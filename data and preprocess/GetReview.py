@@ -4,7 +4,6 @@ Created on Sun Feb 12 12:20:42 2017
 
 @author: Y40
 """
-import re
 import json
 from bs4 import BeautifulSoup    
 import threading  
@@ -13,11 +12,11 @@ import urllib2
 import time
 import random
 import chardet
-import string
+#import string
 import codecs
-from sklearn import feature_extraction
-from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.feature_extraction.text import CountVectorizer
+#from sklearn import feature_extraction
+#from sklearn.feature_extraction.text import TfidfTransformer
+#from sklearn.feature_extraction.text import CountVectorizer
 
 class dazp_bj:  
     def __init__(self,category):  
@@ -26,7 +25,7 @@ class dazp_bj:
         self.typename=category[0][1] 
         self.comment = category[0][2] 
         self.status = category[1]
-        self.page=1  
+        self.page= 176 # 43 for 18
         self.pagenum = 20
         self.headers={  
             "Host":"www.dianping.com",  
@@ -56,7 +55,8 @@ class dazp_bj:
         for a in soup_page.find('div',class_='comment-mode').find('div',class_='Pages').find('div',class_='Pages').find_all('a'):
             now_page = a.get_text().encode('utf-8')
             page.append(now_page)
-            time.sleep(random.randint(0,20))
+            #time.sleep(random.randint(0,20))
+            time.sleep(random.randint(0,12))
         self.pagenum = int(page[-2])
         print "评论共有", self.pagenum, "页 ", self.comment, "条"
 #       
@@ -64,7 +64,7 @@ class dazp_bj:
         dazp_bj.__parseHtml(self,self.bgurl,comment_count) #调用__parseHtml函数
         print self.typename, "comment getting finished\n"
         try:
-            f2 = open('comment_index.txt','a')
+            f2 = open('"D://Desktop//Material//IndependentStudy//comment_index.txt','a')
             #code = chardet.detect(self.typename)['encoding']
             f2.write(self.typename.encode('utf-8')+'.txt' + "\r\n")
         except UnicodeEncodeError:
@@ -125,7 +125,8 @@ class dazp_bj:
 #            print comment[name2[10]]
             self.status['comment']+=1
             comment_count+=1
-            time.sleep(random.randint(0,45))
+            #time.sleep(random.randint(0,45))
+            time.sleep(random.randint(0,35))
 #            
 ##Addition over
 #
@@ -164,21 +165,19 @@ class dazp_bj:
                 try:
                     with open(self.typename+'.json','a') as outfile:
                         json.dump(comment,outfile,ensure_ascii=False)
-                except IOError:
-                    file=codecs.open(self.typename+'.txt','w','utf-8')
-                    for key in comment:
-                        
-                        #for j in comment_get[i]:
-                        #    j = j + ' '
-                        file.write(str(key) + ': ')
-                        file.write(comment[key])
-                        file.write(',')
-                    file.write('\r\n')
-                    pass
+#                except IOError:
+#                    file=codecs.open(self.typename+'.txt','w','utf-8')
+#                    for key in comment:
+#                        #for j in comment_get[i]:
+#                        #    j = j + ' '
+#                        file.write(str(key) + ': ')
+#                        file.write(comment[key])
+#                        file.write(',')
+#                    file.write('\r\n')
                 except UnicodeEncodeError:
                     continue
                 try:
-                    with open(self.typename+'.json','a') as outfile:
+                    with open("D://Desktop//Material//IndependentStudy//Comment//" + self.typename+'.json','a') as outfile:
                         outfile.write(',\n')
                 except IOError:
                     outfile.write(',\n')
@@ -207,7 +206,7 @@ class dazp_bj:
             pass
         except IOError:
             fail+=1
-            print "出现IOError ",fail 
+            print "出现IOError ",fail
             pass
         except urllib2.URLError:
             print "出现网络连接错误\n"
@@ -221,12 +220,6 @@ class dazp_bj:
             time.sleep(600)
             pass
             
-     
-#        except ERROR:execution aborted:
-#            fail+=1
-#            print"出现错误\n"
-            
- 
 #New function
         
 if __name__=='__main__':  
@@ -234,7 +227,7 @@ if __name__=='__main__':
     link = []
     comNum = []
     content = []
-    finish_num = [0,1,2,5,6]
+    finish_num = [0,1,2,5,6,26]
     f = open('Restaurant_Nanjing.txt','r')
     for line in f.readlines():
         content.append(line)
@@ -252,10 +245,11 @@ if __name__=='__main__':
         print len(link) ,"restaurants included\n","Example:",name[0],": ",link[0],"Comment: ",comNum[0],"\n"
     f.close()
     
-    start_num = 16
+    start_num = 28
     
     status = dict() #记录爬虫当前状态
-    for i in range(start_num,len(link)-1):#restart 改这个参数 3 4 11 12 13没做  i=5次数少可用于测试
+    for i in range(start_num,len(link)-1):#restart 改这个参数 3 4 11 12 13没做  i=5次数少可用于测试 18未完
+    # 19 到P29 578/714 20 21 24 25 27没写
         linkex = link[i]
         nameex = name[i]#.decode('utf-8')
         commex = comNum[i]
