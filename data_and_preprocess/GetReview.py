@@ -64,7 +64,7 @@ class dazp_bj:
         dazp_bj.__parseHtml(self,self.bgurl,comment_count) #调用__parseHtml函数
         print self.typename, "comment getting finished\n"
         try:
-            f2 = open('"D://Desktop//Material//IndependentStudy//comment_index.txt','a')
+            f2 = open('"//Dianping_data//comment_index.txt','a')
             #code = chardet.detect(self.typename)['encoding']
             f2.write(self.typename.encode('utf-8')+'.txt' + "\r\n")
         except UnicodeEncodeError:
@@ -177,7 +177,7 @@ class dazp_bj:
                 except UnicodeEncodeError:
                     continue
                 try:
-                    with open("D://Desktop//Material//IndependentStudy//Comment//" + self.typename+'.json','a') as outfile:
+                    with open("//Dianping_data//Comment//" + self.typename+'.json','a') as outfile:
                         outfile.write(',\n')
                 except IOError:
                     outfile.write(',\n')
